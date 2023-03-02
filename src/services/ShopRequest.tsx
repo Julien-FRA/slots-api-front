@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useContext } from "react";
+import { UserContext } from "../App";
 
 export interface User {
   idUser?: number;
@@ -52,9 +54,9 @@ export const CreateShopsRequest = async (shopJSON: any): Promise<any> => (
     })
 );
 
-export const GetUserShopRequest = async (): Promise<any> => (
+export const GetUserShopRequest = async (userId:any): Promise<any> => (
   //remove the HARD CODED idUser, get it from URL/COOKIE
-  await axios.get("http://localhost:3200/api/shop/user/2", {
+  await axios.get(`http://localhost:3200/api/shop/user/${userId}`, {
       headers: {
         'Content-Type': 'application/json'
       }

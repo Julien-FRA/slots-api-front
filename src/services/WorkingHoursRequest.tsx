@@ -22,9 +22,9 @@ export const GetEmployeeWorkingHoursRequest = async (selectedEmployee: any): Pro
   })
 );
 
-export const GetShopEmployeesWorkingHoursRequest = async (selectedShop: any): Promise<User | false> => (
+export const GetShopEmployeesWorkingHoursRequest = async (userIdShop: any): Promise<any> => (
   await axios
-    .get(`http://localhost:3200/api/working-hours-shop/${selectedShop}`) //SEND PROPS.SHOP HERE
+    .get(`http://localhost:3200/api/working-hours-shop/${userIdShop}`) //SEND PROPS.SHOP HERE
     .then((response) => {
       console.log("this is GetEmployeeWorkingHoursRequest", response)
       return response.data;

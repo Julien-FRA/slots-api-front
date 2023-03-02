@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { CreateShopsRequest, EditShopRequest } from '../../../services/ShopRequest';
 import { GetUserShopRequest } from '../../../services/ShopRequest';
 import { Shop } from "../../../schemas/Shop";
@@ -7,6 +7,7 @@ import EditWorkingHours from "./EditWorkingHours";
 import { CreateEmployeeWorkingHoursRequest } from "../../../services/WorkingHoursRequest";
 import { UpdateEmployeeWorkingHoursRequest } from "../../../services/WorkingHoursRequest";
 import { setInterval } from "timers/promises";
+import { UserContext } from "../../../App";
 
 interface WorkingHoursManagerProps {
     requestType: string,
@@ -26,6 +27,10 @@ const WorkingHoursManager: React.FC<WorkingHoursManagerProps> = (props: any) => 
     });
     const [idShop, setIdShop] = useState<number | undefined>();
     const [addShop, setAddShop] = useState<boolean>(false);
+
+    var user: any = useContext(UserContext);
+    var userRole = user.role;
+    var userId = user.idUser;
 
     /**
      * This function updates workingHourData hook on event (each time form is modified).
@@ -83,7 +88,7 @@ const WorkingHoursManager: React.FC<WorkingHoursManagerProps> = (props: any) => 
         const hasShopRequest = async() => {
         setIsLoading(true);
         try {
-            var result = await GetUserShopRequest();
+            var result = await GetUserShopRequest(userId);
 
             if (!result || addShop === true) { //add state to break on adding new shop
                 setHasShop (false);

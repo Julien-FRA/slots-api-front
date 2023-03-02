@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {  useParams } from 'react-router-dom';
 import { GetSingleShop } from '../services/ShopRequest';
-import Calendar from "./dashboard-nested-pages/Calendar";
+import CalendarManagerSinglePage from '../components/Container/Appointment/CalendarManagerSinglePage';
+
 interface Shop {
     idShop: number;
     name: string;
@@ -9,10 +10,10 @@ interface Shop {
     service: string;
 }
 
-function SingleShop() {
+const SingleShop = () => {
     const { shopId } = useParams();
-    const [singleshop, setSingleShop] = useState<Shop>();
-
+    const [singleShop, setSingleShop] = useState<any>();
+    
     useEffect(() => {
         const fetchSingleShop = async () => {
             try {
@@ -24,14 +25,16 @@ function SingleShop() {
         };
         fetchSingleShop();
     }, []);
-
+    const singlePropsShop:any = {
+        singleShop: singleShop
+    }
     return (
         <div className="container">
-            <h2>{singleshop?.name}</h2>
-            <p>{singleshop?.address}</p>
-            <p>{singleshop?.service}</p>
+            <h2>{singleShop?.name}</h2>
+            <p>{singleShop?.address}</p>
+            <p>{singleShop?.service}</p>
 
-            <Calendar />
+            <CalendarManagerSinglePage {...singlePropsShop} />
 
         </div>
     );

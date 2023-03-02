@@ -9,7 +9,7 @@ import WorkingHoursManager from "./WorkingHours/WorkingHoursManager";
 import CrudOperationsWorkingHours from "./Appointment/EditDeleteWorkingHoursModal";
 
 const GlobalModal: any = (props: any) => {
-    
+    console.log("GLOBALMODALS", props)
     const DeleteShopFunc = () => {
         DeleteShopRequest(props.idShop);
         props.setHasShop(false);
@@ -76,6 +76,7 @@ const GlobalModal: any = (props: any) => {
         var regexHour = "([0-9]+(:[0-9]+))";
         var regexWeek = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
         var employeeArray = props.props.shopEmployeesWorkinghours.filter((obj: any) => obj.idEmployee === props.props.selectedEmployee);
+        console.log("EMPLOYEEARRAY", employeeArray)
         var selectedHour: any = [];
         var workingHours: any = [];
         
@@ -98,6 +99,8 @@ const GlobalModal: any = (props: any) => {
                     shopName: employeeArray[i].shopName,
                     day: selectedWeek[0]
                 });
+        console.log("SELECTED HOUR", selectedHour)
+
                 workingHours.push({
                     idEmployee: employeeArray[i].idEmployee,
                     day: selectedWeek[0],
@@ -109,36 +112,40 @@ const GlobalModal: any = (props: any) => {
                 break;
             }    
         }
-        
+        console.log("MODAL PROPS", props)
         return (
-            <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
+            <> {selectedHour ?
+                <Modal
+                    {...props}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">
+                            {props.workingHour
+                                ? <h2> Your appointment with {selectedHour[0].selectedShopName} </h2> : ''
+                            }
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
                         {props.workingHour
-                            ? <h2> Your appointment with {selectedHour[0].selectedShopName} </h2> : ''
+                            ?
+                            <>
+                                <Card className="appointment-modal-cards">You selected an appointment with {selectedHour[0].name} </Card>
+                                <Card className="appointment-modal-cards">Date and hour : {selectedHour[0].day} on {selectedHour[0].startTime}</Card>
+                            </>
+                            : ''
                         }
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {props.workingHour 
-                        ?
-                        <>
-                            <Card className="appointment-modal-cards">You selected an appointment with {selectedHour[0].name} </Card>
-                            <Card className="appointment-modal-cards">Date and hour : {selectedHour[0].day} on {selectedHour[0].startTime}</Card>
-                        </>
-                        : ''
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={(props.onHide)}>Close</Button>
-                    <Button onClick={() => { PostAppointment(); props.onHide();} }>Confirm</Button>
-                </Modal.Footer>
-            </Modal>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={(props.onHide)}>Close</Button>
+                        <Button onClick={() => { PostAppointment(); props.onHide(); }}>Confirm</Button>
+                    </Modal.Footer>
+                </Modal>
+                :
+                ''}
+            </>
         );
     } else if (props.type === "createWorkingHourModal") {
         return (

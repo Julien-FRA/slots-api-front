@@ -1,25 +1,29 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { CreateShopsRequest, EditShopRequest } from '../../../services/ShopRequest';
 import { GetUserShopRequest } from '../../../services/ShopRequest';
 import { Shop } from "../../../schemas/Shop";
 import CreateShop from "./CreateShop";
 import EditShops from "./EditShop";
+import { UserContext } from "../../../App";
 
 const ShopManager: React.FC = () => {
+  var user: any = useContext(UserContext);
+  var userRole = user.role;
+  var userId = user.idUser;
+  console.log("USERID", userId)
   const [shopRequestType, setShopRequestType] = useState<boolean>(true);
   const [hasShop, setHasShop] = useState<boolean>(true);
   const [userShop, setUserShop] = useState<Shop[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [shopData, setShopData] = useState<Shop>({
     idshop: 0,
-    iduser: 2, // CHANGE TO URL PARAMS
+    iduser: 0, // CHANGE TO URL PARAMS
     name: ' ',
     address: ' ',
     service: ' '
   });
   const [idShop, setIdShop] = useState<number | undefined>();
   const [addShop, setAddShop] = useState<boolean>(false);
-
   /**
    * This function updates shopData hook on event (each time form is modified).
    * @param event
@@ -29,6 +33,7 @@ const ShopManager: React.FC = () => {
       setShopData({
           ...shopData,
           idshop: idShop,
+          iduser: userId,
           [event.target.name]: value
       }) 
   };
@@ -37,7 +42,7 @@ const ShopManager: React.FC = () => {
      * This function checks form data syntax and make a POST request to the API.
      * setIsloading hook sets a loader while awaiting POST request
      */
-    const handleSubmit = useCallback(async(event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = useCallback(async(event: any) => {
         event.preventDefault();
         
         const form = event.currentTarget;
@@ -46,7 +51,8 @@ const ShopManager: React.FC = () => {
             event.stopPropagation();
         }
         setIsLoading(true);
-        var shopJSON = JSON.stringify(shopData);
+      var shopJSON = JSON.stringify(shopData);
+      console.log("shopJSON", shopJSON)
         try {
           await (shopRequestType ? (CreateShopsRequest(shopJSON),setHasShop(true)) : (EditShopRequest(shopJSON), setHasShop (false)));
             setAddShop(false);
@@ -63,12 +69,13 @@ const ShopManager: React.FC = () => {
      * function, to update front in consequence.
      */
   useEffect(() => {
+        
         const hasShopRequest = async() => {
         setIsLoading(true);
         try {
-            var result = await GetUserShopRequest();
+          var result = userId ? await GetUserShopRequest(userId) : null; 
 
-            if (!result || addShop === true) { //add state to break on adding new shop
+            if (!result || addShop === true || result === null) { //add state to break on adding new shop
                 setHasShop (false);
             } else {
                 setUserShop(result);
@@ -80,7 +87,7 @@ const ShopManager: React.FC = () => {
         setIsLoading(false);
         }
         hasShopRequest()
-  }, [hasShop]);
+  }, [addShop, hasShop, userId]);
   
 
     /**

@@ -49,7 +49,7 @@ const Calendar = (props: any) => {
                                         <div className='calendar-body'>
                                             {date.workingHours.map((item: any) => (
                                                 <button
-                                                    disabled={!props.isAdmin && item.status === 'taken' ? true : false}
+                                                    disabled={props.userRole === 0 && item.status === 'taken' ? true : false}
                                                     className={item.status === 'available' ? 'calendar-body-items' : 'calendar-body-items-taken'}
                                                     onClickCapture={
                                                         () => (setModalShow(true), setWorkingHour(item.startTime), setWorkingHourArray(item))
@@ -62,7 +62,7 @@ const Calendar = (props: any) => {
                                     </div>
                                 )
                             })}
-                            {props.isAdmin ?
+                            {props.userRole === 1 ?
                                 <div className="calendar-footer">
                                     <button
                                         className="calendar-footer-items"
@@ -75,7 +75,7 @@ const Calendar = (props: any) => {
                         <div className='calendar-week-selectors'>
                             <i className="fa-solid fa-angle-right" onClick={props.handleNextWeek}></i>
                         </div>
-                        {props.isAdmin ?
+                        {props.userRole === 1 ?
                             <>
                                 <GlobalModal
                                     {...calendarProps}
