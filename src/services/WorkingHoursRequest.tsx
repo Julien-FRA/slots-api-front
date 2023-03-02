@@ -1,4 +1,5 @@
 import axios from 'axios';
+const PATH = process.env.REACT_APP_API_PATH;
 
 export interface User {
   idUser?: number;
@@ -9,7 +10,7 @@ export interface User {
 
 
 export const GetEmployeeWorkingHoursRequest = async (selectedEmployee: any): Promise<any> => (
-  await axios.get(`http://localhost:3200/api/working-hours-employee/${selectedEmployee}`, {
+  await axios.get(`${PATH}/working-hours-employee/${selectedEmployee}`, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -24,7 +25,7 @@ export const GetEmployeeWorkingHoursRequest = async (selectedEmployee: any): Pro
 
 export const GetShopEmployeesWorkingHoursRequest = async (selectedShop: any): Promise<User | false> => (
   await axios
-    .get(`http://localhost:3200/api/working-hours-shop/${selectedShop}`) //SEND PROPS.SHOP HERE
+    .get(`${PATH}/working-hours-shop/${selectedShop}`) //SEND PROPS.SHOP HERE
     .then((response) => {
       console.log("this is GetEmployeeWorkingHoursRequest", response)
       return response.data;
@@ -33,7 +34,7 @@ export const GetShopEmployeesWorkingHoursRequest = async (selectedShop: any): Pr
 );
 
 export const UpdateEmployeeWorkingHoursRequest = async (workingHoursJSON: any): Promise<any> => (
-    await axios.put("http://localhost:3200/api/working-hours/update", {workingHoursJSON}, {
+    await axios.put("${PATH}/working-hours/update", {workingHoursJSON}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -46,7 +47,7 @@ export const UpdateEmployeeWorkingHoursRequest = async (workingHoursJSON: any): 
 );
 
 export const CreateEmployeeWorkingHoursRequest = async (workingHoursJSON: any): Promise<any> => (
-    await axios.post("http://localhost:3200/api/working-hours/create", {workingHoursJSON}, {
+    await axios.post("${PATH}/working-hours/create", {workingHoursJSON}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -59,7 +60,7 @@ export const CreateEmployeeWorkingHoursRequest = async (workingHoursJSON: any): 
 );
 export const DeleteEmployeeWorkingHourRequest = async (id:any): Promise<any> => (
   //remove the HARD CODED idShop, get it from URL/COOKIE
-  await axios.delete(`http://localhost:3200/api/working-hours/delete/${id}`, {
+  await axios.delete(`${PATH}/working-hours/delete/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }

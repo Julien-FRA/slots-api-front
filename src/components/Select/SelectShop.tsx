@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Link, redirect} from 'react-router-dom';
 import axios from 'axios';
+const PATH = process.env.REACT_APP_API_PATH;
 
 type Shop = {
     idShop: number;
@@ -16,7 +17,7 @@ const ShopSelector: React.FC = () => {
         const name = e.target.value;
         console.log(name)
         setShopName(name);
-        axios.get<Shop[]>(`http://localhost:3200/api/shops`)
+        axios.get<Shop[]>(`${PATH}/shops`)
             .then(response => {
                 setShops(response.data);
             })

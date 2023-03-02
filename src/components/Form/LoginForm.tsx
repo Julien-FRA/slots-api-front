@@ -31,7 +31,7 @@ const LoginForm = () => {
           setError("")
           setTimeout(() => {
             navigate('/profil')
-            window.location.reload()
+            //window.location.reload()
           }, 2000)
         } else {
           setIsLogin(false)

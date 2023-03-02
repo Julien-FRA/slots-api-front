@@ -1,4 +1,5 @@
 import axios from "axios";
+const PATH = process.env.REACT_APP_API_PATH;
 
 export interface User {
   idUser?: number;
@@ -16,7 +17,7 @@ export interface Shop {
 }
 
 export const GetAllUsers = async (): Promise<User | false> => (
-    await axios.get("http://localhost:3200/api/users")
+    await axios.get("${PATH}/users")
     .then((response) => {
       return response.data;
     })
@@ -24,14 +25,14 @@ export const GetAllUsers = async (): Promise<User | false> => (
 );
 
 export const GetAllShops = async (): Promise<Shop | false> => (
-    await axios.get("http://localhost:3200/api/shops")
+    await axios.get("${PATH}/shops")
         .then((response) => response.data)
 
         .catch((error) => false)
 );
 
 export const GetSingleShop = async (shopId:any): Promise<Shop | false> => (
-    await axios.get(`http://localhost:3200/api/shop/${shopId}`)
+    await axios.get(`${PATH}/shop/${shopId}`)
         .then((response) => {
             return response.data;
         })
@@ -40,7 +41,7 @@ export const GetSingleShop = async (shopId:any): Promise<Shop | false> => (
 
 
 export const CreateShopsRequest = async (shopJSON: any): Promise<any> => (
-    await axios.post("http://localhost:3200/api/shop/create", {shopJSON}, {
+    await axios.post("${PATH}/shop/create", {shopJSON}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -54,7 +55,7 @@ export const CreateShopsRequest = async (shopJSON: any): Promise<any> => (
 
 export const GetUserShopRequest = async (): Promise<any> => (
   //remove the HARD CODED idUser, get it from URL/COOKIE
-  await axios.get("http://localhost:3200/api/shop/user/2", {
+  await axios.get("${PATH}/shop/user/2", {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -68,7 +69,7 @@ export const GetUserShopRequest = async (): Promise<any> => (
 
 export const DeleteShopRequest = async (id:any): Promise<any> => (
   //remove the HARD CODED idShop, get it from URL/COOKIE
-  await axios.delete(`http://localhost:3200/api/shop/delete/${id}`, {
+  await axios.delete(`${PATH}/shop/delete/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -82,7 +83,7 @@ export const DeleteShopRequest = async (id:any): Promise<any> => (
 
 export const EditShopRequest = async (shopJSON:any): Promise<any> => (
   //remove the HARD CODED idShop, get it from URL/COOKIE
-  await axios.put(`http://localhost:3200/api/shop/update`, {shopJSON}, {
+  await axios.put(`${PATH}/shop/update`, {shopJSON}, {
       headers: {
         'Content-Type': 'application/json'
       }
