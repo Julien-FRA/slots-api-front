@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+const PATH = process.env.REACT_APP_API_PATH;
+
+
 export const GetAllEmployeesRequest = async (): Promise<any> => (
-  await axios.get(`http://localhost:3200/api/employees`, {
+  await axios.get(`${PATH}/api/employees`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -15,7 +18,7 @@ export const GetAllEmployeesRequest = async (): Promise<any> => (
 );
 
 export const GetEmployeeRequest = async (id: any): Promise<any> => (
-  await axios.get(`http://localhost:3200/api/employee/${id}`, {
+  await axios.get(`${PATH}/api/employee/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -29,7 +32,7 @@ export const GetEmployeeRequest = async (id: any): Promise<any> => (
 );
 
 export const GetShopEmployeeRequest = async (id: any): Promise<any> => (
-  await axios.get(`http://localhost:3200/api/employee/shop/${id}`, {
+  await axios.get(`${PATH}/api/employee/shop/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -43,7 +46,7 @@ export const GetShopEmployeeRequest = async (id: any): Promise<any> => (
 );
 
 export const CreateEmployeeRequest = async (employeeJSON: any): Promise<any> => (
-    await axios.post("http://localhost:3200/api/employee/create", {employeeJSON}, {
+    await axios.post("${PATH}/api/employee/create", {employeeJSON}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -57,7 +60,7 @@ export const CreateEmployeeRequest = async (employeeJSON: any): Promise<any> => 
 
 export const DeleteEmployeeRequest = async (id:any): Promise<any> => (
   //remove the HARD CODED idShop, get it from URL/COOKIE
-  await axios.delete(`http://localhost:3200/api/employee/delete/${id}`, {
+  await axios.delete(`${PATH}/api/employee/delete/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -71,7 +74,7 @@ export const DeleteEmployeeRequest = async (id:any): Promise<any> => (
 
 export const UpdateEmployeesRequest = async (employeeJSON:any): Promise<any> => (
   //remove the HARD CODED idShop, get it from URL/COOKIE
-  await axios.put(`http://localhost:3200/api/employee/update`, {employeeJSON}, {
+  await axios.put(`${PATH}/api/employee/update`, {employeeJSON}, {
       headers: {
         'Content-Type': 'application/json'
       }

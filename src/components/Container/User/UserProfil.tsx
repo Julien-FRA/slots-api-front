@@ -1,8 +1,6 @@
 import { useContext } from 'react'
 import { UserContext } from '../../../App';
 
-
-
 const UserProfil = () => {
   const user = useContext(UserContext);
 

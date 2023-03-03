@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+const PATH = process.env.REACT_APP_API_PATH;
+
+
 export const CreateAppointmentRequest = async (appointmentJSON: any): Promise<any> => (
-    await axios.post("http://localhost:3200/api/appointment/create", {appointmentJSON}, {
+    await axios.post("${PATH}/api/appointment/create", {appointmentJSON}, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -15,7 +18,7 @@ export const CreateAppointmentRequest = async (appointmentJSON: any): Promise<an
 
 export const GetCustomerAppointmentsRequest = async (): Promise<any> => (
   //remove the HARD CODED idUser, get it from URL/COOKIE
-    await axios.get("http://localhost:3200/api/appointment/customer/1", {
+    await axios.get("${PATH}/api/appointment/customer/1", {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -29,7 +32,7 @@ export const GetCustomerAppointmentsRequest = async (): Promise<any> => (
 
 export const DeleteAppointmentRequest = async (id:any): Promise<any> => (
   //remove the HARD CODED idShop, get it from URL/COOKIE
-    await axios.delete(`http://localhost:3200/api/appointment/delete/${id}`, {
+    await axios.delete(`${PATH}/api/appointment/delete/${id}`, {
         headers: {
             'Content-Type': 'application/json'
         }
