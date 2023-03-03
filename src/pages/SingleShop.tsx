@@ -24,7 +24,7 @@ const SingleShop = () => {
             }
         };
         fetchSingleShop();
-    }, []);
+    }, [shopId]);
     const singlePropsShop:any = {
         singleShop: singleShop
     }

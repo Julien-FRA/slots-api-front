@@ -95,19 +95,20 @@ const CalendarManagerSinglePage = (props: any) => {
    console.log("THIS IS PROPS MG", props.singleShop)
    useEffect(() => {
        console.log("THIS IS USER ID", userId)
-       if (userId) {
+       if (userId !== undefined) {
            const fetchData = async () => {
                const [employeeResponse, workingHoursResponse, userShopResponse] = await Promise.all([
                    GetShopEmployeeRequest(props.singleShop.idShop),
                    GetEmployeeWorkingHoursRequest(selectedEmployee),
                    GetUserShopRequest(userId)
                ]);
-               console.log("THIS IS EMPLOYEE RESPONSE", employeeResponse)
+                console.log("THIS IS EMPLOYEE RESPONSE", employeeResponse)
                 setEmployees(employeeResponse);
                 setEmployeeWorkingHours(workingHoursResponse);
                 //setShopEmployeesWorkinghours(shopEmployeesResponse);
                 //console.log("THIS IS GOOD", shopEmployeesResponse)
-                setUserShop(userShopResponse);
+                console.log("userShopResponse", userShopResponse)
+                setUserShop(userShopResponse ? userShopResponse : null ) ;
                 setUserIdShop(userShopResponse[0].idShop);
             }
             const fetchData2 = async () => {
@@ -154,6 +155,7 @@ const CalendarManagerSinglePage = (props: any) => {
             }
         }
     };
+    console.log("THIS IS USER SHOP HAHA", userShop)
     const calendarProps: any = {
         singleShopData: props.singleshop,
         employees: employees,
@@ -168,7 +170,8 @@ const CalendarManagerSinglePage = (props: any) => {
         userShop: userShop,
         handlePrevWeek: handlePrevWeek,
         handleNextWeek: handleNextWeek,
-        handleToggleChange: handleToggleChange
+        handleToggleChange: handleToggleChange,
+        singlePropsShop: props.singlePropsShop
 
     }
     return (

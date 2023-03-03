@@ -7,8 +7,11 @@ import EditShops from "./Shop/EditShop";
 import { UpdateEmployeeWorkingHoursRequest } from "../../services/WorkingHoursRequest";
 import WorkingHoursManager from "./WorkingHours/WorkingHoursManager";
 import CrudOperationsWorkingHours from "./Appointment/EditDeleteWorkingHoursModal";
+import { useParams } from "react-router-dom";
+import { parse } from "path";
 
 const GlobalModal: any = (props: any) => {
+    const { shopId } = useParams();
     console.log("GLOBALMODALS", props)
     const DeleteShopFunc = () => {
         DeleteShopRequest(props.idShop);
@@ -19,11 +22,14 @@ const GlobalModal: any = (props: any) => {
         props.setHasShop(false);
     }
     const PostAppointment = async () => {
-        let appointmentJSON = selectedHour;
+        let parseInted = { ...selectedHour[0], idShop: parseInt(selectedHour[0].idShop) };
+        console.log("THIS IS PARSEINTED", parseInted)
+        let appointmentJSON = JSON.stringify(parseInted);
+        console.log("appointmentJSON", appointmentJSON)
         CreateAppointmentRequest(appointmentJSON);
         workingHours[0].status = 'taken';
         UpdateEmployeeWorkingHoursRequest(workingHours);
-        window.location.reload();
+        //window.location.reload();
     }
     if (props.type === "deleteModal") {
             return (
@@ -84,6 +90,7 @@ const GlobalModal: any = (props: any) => {
         * This will also be used in workingHours crud POST request
         * All data for both request should be contained in selectedHour array
         */
+        
         for (var i = 0; i < employeeArray.length; i++) {
             var selectedStartTime = employeeArray[i].startTime.match(regexHour);
             var selectedEndTime = employeeArray[i].endTime.match(regexHour);
@@ -92,15 +99,13 @@ const GlobalModal: any = (props: any) => {
                 selectedHour.push({
                     idEmployee: employeeArray[i].idEmployee,
                     idCustomer: 1, //here we must replace it by the cookie isCustomer
-                    idShop: props.props.selectedShop,
+                    idShop: shopId,
                     startTime: selectedStartTime[0],
                     endTime: selectedEndTime[0],
                     name: employeeArray[i].name,
                     shopName: employeeArray[i].shopName,
                     day: selectedWeek[0]
                 });
-        console.log("SELECTED HOUR", selectedHour)
-
                 workingHours.push({
                     idEmployee: employeeArray[i].idEmployee,
                     day: selectedWeek[0],
@@ -112,6 +117,7 @@ const GlobalModal: any = (props: any) => {
                 break;
             }    
         }
+        console.log("selectedHour", selectedHour)
         console.log("MODAL PROPS", props)
         return (
             <> {selectedHour ?
@@ -124,7 +130,7 @@ const GlobalModal: any = (props: any) => {
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
                             {props.workingHour
-                                ? <h2> Your appointment with {selectedHour[0].selectedShopName} </h2> : ''
+                                ? <h2> Your appointment with {selectedHour ? selectedHour[0].selectedShopName : "Loading"} </h2> : ''
                             }
                         </Modal.Title>
                     </Modal.Header>
