@@ -21,6 +21,7 @@ const GlobalModal: any = (props: any) => {
         EditShopRequest(props.idShop);
         props.setHasShop(false);
     }
+    console.log("haha")
     const PostAppointment = async () => {
         let parseInted = { ...selectedHour[0], idShop: parseInt(selectedHour[0].idShop) };
         console.log("THIS IS PARSEINTED", parseInted)
